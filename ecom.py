@@ -11,14 +11,27 @@ def main():
     st.title("Ecom Dashboard")
     st.subheader('Hello Islam')
     st.sidebar.title("Navigation")
-    selection = st.sidebar.radio("Go to", ["Dashboard", "Sales", "Customers"])
+    # selection = st.sidebar.radio("Go to", ["Dashboard", "Sales", "Customers"])
 
-        # Page Routing
-    if selection == "Dashboard":
+    #     # Page Routing
+    # if selection == "Dashboard":
+    #     overview.app()
+    # elif selection == "Sales":
+    #     sales.app()
+    # elif selection == "Customers":
+    #     customers.app()
+
+    # Define tabs
+    tabs = ["Dashboard", "Sales", "Customers"]
+    tab_selection = st.tabs(tabs)
+
+    with tab_selection[0]:
         overview.app()
-    elif selection == "Sales":
+
+    with tab_selection[1]:
         sales.app()
-    elif selection == "Customers":
+
+    with tab_selection[2]:
         customers.app()
 
 
