@@ -1,25 +1,16 @@
 import streamlit as st
 from pages import customers, sales, overview
 
-st.set_page_config(layout='wide')
+st.set_page_config(layout='wide', page_title='Ecom-Dashboard')
 
 def main():
     """ 
     Testing Streamlit
     """
     # Sidebar Navigation
-    st.title("Ecom Dashboard")
+    st.title("Ecom_Dashboard")
     st.subheader('Hello Islam')
-    st.sidebar.title("Navigation")
-    # selection = st.sidebar.radio("Go to", ["Dashboard", "Sales", "Customers"])
-
-    #     # Page Routing
-    # if selection == "Dashboard":
-    #     overview.app()
-    # elif selection == "Sales":
-    #     sales.app()
-    # elif selection == "Customers":
-    #     customers.app()
+    st.markdown('<style>div.block-container{padding-top:1rem}</style>', unsafe_allow_html=True)
 
     # Define tabs
     tabs = ["Dashboard", "Sales", "Customers"]
