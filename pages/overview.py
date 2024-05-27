@@ -150,11 +150,16 @@ def app():
         # Reorder the funnel_data DataFrame
         funnel_data['Event Type'] = pd.Categorical(funnel_data['Event Type'], categories=category_order, ordered=True)
         funnel_data = funnel_data.sort_values('Event Type')
+        col3 , col4 = st.columns((2))
 
-        fig1 = charts.create_funnel_plot(funnel_data, x_col= 'Number of Sessions', y_col='Event Type')
-        st.plotly_chart(fig1, use_container_width=True)
-        st.subheader("Filtered Data")
-        st.dataframe(data=df_filtered, use_container_width=True)  # Display a preview of the filtered data
+        with col3:
+            fig1 = charts.create_funnel_plot(funnel_data, x_col= 'Number of Sessions', y_col='Event Type', height=500, title='Over All Funnel')
+            st.plotly_chart(fig1, use_container_width=True)
+
+        with col4:
+            st.subheader("Filtered Data")
+            st.dataframe(data=df_filtered, use_container_width=True, hide_index=True)  # Display a preview of the filtered data
+
     else:
         st.warning("No data available. Please check the input file.")    
 

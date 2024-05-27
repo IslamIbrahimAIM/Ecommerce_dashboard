@@ -67,7 +67,8 @@ def create_funnel_plot(data, y_col, x_col, text_info="value+percent previous", t
         height=height,
         width=width,
         margin=dict(l=50, r=50, t=100, b=50),
-        title_x=0.5,
+        # title_pos=title_pos,
+        title_font_size= 24,
         title_y=0.95,
         showlegend=False
     )
