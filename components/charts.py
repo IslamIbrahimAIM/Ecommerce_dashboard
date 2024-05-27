@@ -15,7 +15,7 @@ import math
 
 
 
-def create_funnel_plot(data, y_col, x_col, text_info="value+percent previous", title="Funnel Plot", x_title="Number of Sessions", y_title="Event Type", height=600, width=800, subplots=False, subplot_titles=None, nrows=1, ncols=1, horizontal_spacing=0.1, vertical_spacing=0.1):
+def create_funnel_plot(data, y_col, x_col, text_info="value+percent previous", title="Funnel Plot", x_title="Number of Sessions", y_title="Event Type", height=600, width=800, subplots=False, subplot_titles=None, nrows=None, ncols=None, horizontal_spacing=0.1, vertical_spacing=0.1):
     """
     Create a funnel plot with customizable options and an option to create subplots.
 
