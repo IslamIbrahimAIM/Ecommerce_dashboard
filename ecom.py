@@ -10,7 +10,7 @@ def main():
     # Sidebar Navigation
     st.title("Ecom_Dashboard")
     st.subheader('Hello Islam')
-    st.markdown('<style>div.block-container{padding-top:1rem}</style>', unsafe_allow_html=True)
+    
 
     # Define tabs
     tabs = ["Dashboard", "Sales", "Customers"]
@@ -27,4 +27,5 @@ def main():
 
 
 if __name__ == '__main__':
+    st.markdown('<style>div.block-container{padding-top:1rem}</style>', unsafe_allow_html=True)
     main()
