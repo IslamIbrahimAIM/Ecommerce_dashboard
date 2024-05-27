@@ -9,4 +9,3 @@ scikit-learn
 streamlit
 networkx
 graphviz
-"dask[complete]"
