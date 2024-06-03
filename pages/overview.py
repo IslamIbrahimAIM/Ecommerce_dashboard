@@ -200,7 +200,8 @@ def app():
                 color='Event Type',
                 barmode='group',
                 title='Cart vs Purchase Over Time',
-                width=400
+                width=400,
+                height=500
             )
 
             # Update the layout of the plot
