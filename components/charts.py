@@ -121,7 +121,7 @@ def create_bar_chart(df, x_col, y_col, title, x_label, y_label, decimal_places=2
     return fig
 
 
-def create_bar_chart(df, x_col, y_col, title, x_label, y_label, decimal_places=2, format_type='f', fig_name='bar_chart', height=600):
+def create_vbar_chart(df, x_col, y_col, title, x_label, y_label, decimal_places=2, format_type='f', fig_name='bar_chart', height=600):
     """
     Create a bar chart with customizable options.
 

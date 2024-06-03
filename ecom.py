@@ -1,7 +1,8 @@
 import streamlit as st
-from pages import customers, sales, overview
+from pages import customers, sales, overview, testing
 
 st.set_page_config(layout='wide', page_title='Ecom-Dashboard')
+st.markdown('<style>div.block-container{padding-top:1rem}</style>', unsafe_allow_html=True)
 
 def main():
     """ 
@@ -13,7 +14,7 @@ def main():
     
 
     # Define tabs
-    tabs = ["Dashboard", "Sales", "Customers"]
+    tabs = ['Dashboard', "Sales", "Customers"]
     tab_selection = st.tabs(tabs)
 
     with tab_selection[0]:
@@ -27,5 +28,5 @@ def main():
 
 
 if __name__ == '__main__':
-    st.markdown('<style>div.block-container{padding-top:1rem}</style>', unsafe_allow_html=True)
+    
     main()
