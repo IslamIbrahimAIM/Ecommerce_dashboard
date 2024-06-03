@@ -623,6 +623,15 @@ def app():
 
     top_order_col, low_order_col = st.columns((2))
 
+    with top_order_col:
+        st.markdown("<div style='border: 2px solid #0047ab; min-height: 50px; display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);'><h5 style= 'color: white;'>Top Performing Dates</h5></div>", unsafe_allow_html=True)
+        st.dataframe(data_70_percent, use_container_width=True, column_order=['Date', 'Orders'], hide_index=True)
+
+    with low_order_col:
+        st.markdown("<div style='border: 2px solid #0047ab; min-height: 50px; display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);'><h5 style= 'color: white;'>Low Performing Dates</h5></div>", unsafe_allow_html=True)
+        st.dataframe(low_performing, use_container_width=True, column_order=['Date', 'Orders'], hide_index=True)
+
+
     with st.expander("**Top Contributing Dates**"):
         if not extreme_points.empty:
             st.markdown(f"<div style='border: 2px solid #51829B; padding: 10px; margin-bottom: 10px;'>"
@@ -631,13 +640,7 @@ def app():
                         f"<p>The following dates represent the extreme values of orders, which will require further investigation by acquiring marketing data promotions online and offline:</p> <b>{' , '.join([date.strftime('%Y-%m-%d') for date in extreme_points['Date']])} and values {' , '.join([format(order, ',') for order in extreme_points['Orders']])}</b>",
                         unsafe_allow_html=True
                         )
-            with top_order_col:
-                st.markdown("<div style='border: 2px solid #0047ab; min-height: 50px; display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);'><h5 style= 'color: white;'>Top Performing Dates</h5></div>", unsafe_allow_html=True)
-                st.dataframe(data_70_percent, use_container_width=True, column_order=['Date', 'Orders'], hide_index=True)
 
-            with low_order_col:
-                st.markdown("<div style='border: 2px solid #0047ab; min-height: 50px; display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);'><h5 style= 'color: white;'>Low Performing Dates</h5></div>", unsafe_allow_html=True)
-                st.dataframe(low_performing, use_container_width=True, column_order=['Date', 'Orders'], hide_index=True)
         else:
             st.markdown(f"<div style='border: 2px solid #51829B; padding: 10px; margin-bottom: 10px;'>"
                         f"<p><em>This chart is showing the top dates contributing to <b>70%</b> of the overall orders:</em></p><br>"
@@ -645,13 +648,7 @@ def app():
                         f"<p>No extreme values of orders were found.</p>",
                         unsafe_allow_html=True
                         )
-            with top_order_col:
-                st.markdown("<div style='border: 2px solid #0047ab; min-height: 50px; display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);'><h5 style= 'color: white;'>Top Performing Dates</h5></div>", unsafe_allow_html=True)
-                st.dataframe(data_70_percent, use_container_width=True, column_order=['Date', 'Orders'], hide_index=True)
-
-            with low_order_col:
-                st.markdown("<div style='border: 2px solid #0047ab; min-height: 50px; display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);'><h5 style= 'color: white;'>Low Performing Dates</h5></div>", unsafe_allow_html=True)
-                st.dataframe(low_performing, use_container_width=True, column_order=['Date', 'Orders'], hide_index=True)     
+   
     # fig_trend_bar_low = px.bar(data_70_percent, x='Date', y='Orders')
     # fig_trend_line_low = px.scatter(data_70_percent, x='Date', y='Orders', trendline='lowess', title='Orders Trend Over Time')
 
