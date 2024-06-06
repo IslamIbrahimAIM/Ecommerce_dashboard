@@ -1,5 +1,5 @@
 import streamlit as st
-# from pages import customers, sales, overview, testing
+# from pages import customers, sales, testing
 from pages import customers, sales, overview
 
 st.set_page_config(layout='wide', page_title='Ecom-Dashboard')
@@ -15,11 +15,13 @@ def main():
     
 
     # Define tabs
+    # tabs = ['Dashboard', "Sales", "Customers"]
     tabs = ['Dashboard', "Sales", "Customers"]
     tab_selection = st.tabs(tabs)
 
     with tab_selection[0]:
         overview.app()
+        # testing.app()
 
     with tab_selection[1]:
         sales.app()
@@ -31,3 +33,5 @@ def main():
 if __name__ == '__main__':
     
     main()
+
+

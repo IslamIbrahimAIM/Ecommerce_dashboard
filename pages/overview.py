@@ -10,9 +10,13 @@ import datetime
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
+# import glob
+
+
+output_dir = 'data'
 
 # Path to the data file
-path = os.path.join('data', 'daily_summary_table.csv')
+path = os.path.join(output_dir, 'daily_summary_table.csv')
 
 # Load data
 try:
@@ -120,6 +124,8 @@ def app():
     date1_timestamp = pd.Timestamp(date1)
     date2_timestamp = pd.Timestamp(date2)
 
+    # Store the selected dates in session state
+    st.session_state.selected_dates = (date1, date2)
 
     st.divider()
 
