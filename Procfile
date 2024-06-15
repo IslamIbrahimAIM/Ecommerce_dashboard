@@ -1,1 +1,1 @@
-web: sh setup.sh && add_ga.py && streamlit run ecom.py
+web: sh setup.sh && python add_ga.py && streamlit run ecom.py
