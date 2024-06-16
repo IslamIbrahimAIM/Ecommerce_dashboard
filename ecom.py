@@ -12,7 +12,7 @@ st.markdown(no_sidebar_style, unsafe_allow_html=True)
 st.markdown('<style>div.block-container{padding-top:1rem}</style>', unsafe_allow_html=True)
 
 
-inject_ga()
+# inject_ga()
 
 st.cache_data.clear()
 def main():
