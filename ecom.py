@@ -2,6 +2,8 @@ import streamlit as st
 from pages import sessions, category
 import streamlit.components.v1 as components
 
+from components.add_ga import inject_ga
+
 
 st.set_page_config(layout='wide', page_title='Ecom-Dashboard', initial_sidebar_state='collapsed')
 no_sidebar_style = """
@@ -10,9 +12,11 @@ no_sidebar_style = """
     </style>
 """
 # Include Google Analytics tracking code
-with open("google_analytics.html", "r") as f:
-    html_code = f.read()
-    components.html(html_code, height=0)
+# with open("google_analytics.html", "r") as f:
+#     html_code = f.read()
+#     components.html(html_code, height=0)
+
+inject_ga()
 
 st.markdown(no_sidebar_style, unsafe_allow_html=True)
 st.markdown('<style>div.block-container{padding-top:1rem}</style>', unsafe_allow_html=True)

@@ -32,6 +32,7 @@
 # inject_ga()
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 GA_SCRIPT = """
 <!-- Google tag (gtag.js) -->
@@ -45,4 +46,4 @@ GA_SCRIPT = """
 """
 
 def inject_ga():
-    st.components.v1.html(GA_SCRIPT, height=0, width=0)
+    components.html(GA_SCRIPT, height=0, width=0)
