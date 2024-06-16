@@ -1,6 +1,6 @@
 import streamlit as st
 from pages import sessions, category
-from .add_ga import inject_ga
+from components.add_ga import inject_ga
 
 st.set_page_config(layout='wide', page_title='Ecom-Dashboard', initial_sidebar_state='collapsed')
 no_sidebar_style = """
