@@ -12,9 +12,9 @@ no_sidebar_style = """
     </style>
 """
 # Include Google Analytics tracking code
-# with open("google_analytics.html", "r") as f:
-#     html_code = f.read()
-#     components.html(html_code, height=0)
+with open("google_analytics.html", "r") as f:
+    html_code = f.read()
+    components.html(html_code, height=0)
 
 inject_ga()
 
