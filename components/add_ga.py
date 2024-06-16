@@ -31,19 +31,19 @@
 #         index_path.write_text(new_html)
 # inject_ga()
 
-import streamlit as st
-import streamlit.components.v1 as components
+# import streamlit as st
+# import streamlit.components.v1 as components
 
-GA_SCRIPT = """
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CPK41EM5P3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-CPK41EM5P3');
-</script>
-"""
+# GA_SCRIPT = """
+# <!-- Google tag (gtag.js) -->
+# <script async src="https://www.googletagmanager.com/gtag/js?id=G-CPK41EM5P3"></script>
+# <script>
+#   window.dataLayer = window.dataLayer || [];
+#   function gtag(){dataLayer.push(arguments);}
+#   gtag('js', new Date());
+#   gtag('config', 'G-CPK41EM5P3');
+# </script>
+# """
 
-def inject_ga():
-    components.html(GA_SCRIPT, height=0, width=0)
+# def inject_ga():
+#     components.html(GA_SCRIPT, height=0, width=0)
