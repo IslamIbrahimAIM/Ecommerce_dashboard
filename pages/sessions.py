@@ -663,7 +663,8 @@ def app():
                         title='Abandonment Cart Rate for Brands by Returning User Scatter Plot')
         st.plotly_chart(abn_brand_fig, use_container_width=True)
     st.divider()
-    filtered_abn['date'] = filtered_abn['date'].dt.date.copy()
+    filtered_abn['date'] = pd.to_datetime(filtered_abn['date']).dt.date
+    # filtered_abn['date'] = filtered_abn['date'].dt.date.copy()
     st.dataframe(filtered_abn, use_container_width=True, column_order=['date', 'brand', 'Views', 'Orders', 'Sales', 'Buyers', 'Score_Bucket', 'Abandonment Rate'])
 
 
