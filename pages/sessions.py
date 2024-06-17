@@ -211,6 +211,10 @@ def app():
         st.write('This is Sidebar')
     st.title("Ecom Dashboard")
     # st.write("This is new Version")
+
+    config = {
+        'displayModeBar': False,
+    }
     
     col1, col2 = st.columns(2)
     
@@ -399,7 +403,7 @@ def app():
             'xanchor': 'center'
                     },
         )
-        st.plotly_chart(fig_overall, use_container_width=True)
+        st.plotly_chart(fig_overall, use_container_width=True, config=config)
 
     with funnel_col2:
         if not is_all_zero(funnel_data_new):
@@ -411,7 +415,7 @@ def app():
                                                 'xanchor': 'center'
                                             },
                                     )
-            st.plotly_chart(fig_new_user, use_container_width=True)
+            st.plotly_chart(fig_new_user, use_container_width=True, config=config)
 
         else:
             st.write("Sorry there is No New User for that period")
@@ -426,7 +430,7 @@ def app():
                                     'xanchor': 'center'
                                 },
                         ) 
-            st.plotly_chart(fig_return_user, use_container_width=True)
+            st.plotly_chart(fig_return_user, use_container_width=True, config=config)
             # st.write(funnel_data_return)
 
         else:
@@ -466,7 +470,7 @@ def app():
             }
         )
         sessions_fig_bar.update_traces(texttemplate='%{y:.2s}', textposition='outside')
-        st.plotly_chart(sessions_fig_bar, use_container_width=True)
+        st.plotly_chart(sessions_fig_bar, use_container_width=True, config=config)
 
     with figure_orders:
         orders_fig_bar = px.bar(
@@ -490,7 +494,7 @@ def app():
             }
         )
         orders_fig_bar.update_traces(texttemplate='%{y:.2s}', textposition='outside')
-        st.plotly_chart(orders_fig_bar, use_container_width=True)
+        st.plotly_chart(orders_fig_bar, use_container_width=True, config=config)
 
 
 
@@ -573,7 +577,7 @@ def app():
         fig_trend_line = px.scatter(data_70_percent, x='date', y='Orders', title='Orders Trend Over Time')
 
 
-    st.plotly_chart(fig_trend_line, use_container_width=True)
+    st.plotly_chart(fig_trend_line, use_container_width=True, config=config)
 
     pareto_fig = px.bar(top_performing_cat_without_elec_unk, x='category', y='Total_Sales', title='Categories contributed the most to sales ex electronics and unknown')
     pareto_fig.add_scatter(x=top_performing_cat_without_elec_unk['category'], y=top_performing_cat_without_elec_unk['Cum_perc'], yaxis='y2')
@@ -590,7 +594,7 @@ def app():
         )
     )
     pareto_fig.update_traces(texttemplate='%{y:.2s}', textposition='outside', selector=dict(type='bar'))
-    st.plotly_chart(pareto_fig, use_container_width=True)
+    st.plotly_chart(pareto_fig, use_container_width=True, config=config)
 
     
     custom_order = ["Star", "High Performance", "Low Performance", "Weak Performance"]
@@ -604,7 +608,7 @@ def app():
                         hover_data=['brand', 'Views', 'Sales'], size='Orders',
                         title='Brand Evaluation Scatter Plot')
         # buckets.update_layout(scattermode='group')
-        st.plotly_chart(buckets, use_container_width=True)
+        st.plotly_chart(buckets, use_container_width=True, config=config)
     st.divider()
     filtered_brand = filtered_brand.sort_values(by='Sales', ascending=False)
     st.dataframe(filtered_brand, hide_index=True, column_order=['brand', 'Views', 'Sales', 'Orders', 'Buyers'], use_container_width=True)
@@ -634,12 +638,12 @@ def app():
         brand_bar_fig = px.bar(filtered_abn, x='date', y='Abandonment Rate', color='user_type', barmode='group', color_discrete_sequence = [ new_user_colors[0], '#00d4ff'])
         brand_bar_fig.update_layout(xaxis_title='Date', xaxis_tickformat='%Y-%m-%d', showlegend=True)
         brand_bar_fig.update_traces(texttemplate='%{y:.2s}%', textposition='outside')
-        st.plotly_chart(brand_bar_fig, use_container_width=True)
+        st.plotly_chart(brand_bar_fig, use_container_width=True, config=config)
 
     elif selected_user != "All Users" and selected_option != "All Brands":
         filtered_abn = abndon_df[(abndon_df['user_type'] == selected_user) & (abndon_df['Score_Bucket'] == cat_selected_bucket) & (abndon_df['brand'] == selected_option)]
         bran_line_fig = px.line(filtered_abn, x = 'date', y = 'Abandonment Rate', title=f"Abandomnet Cart Rate for {selected_option} brand and User type {selected_user_name}")
-        st.plotly_chart(bran_line_fig, use_container_width=True)
+        st.plotly_chart(bran_line_fig, use_container_width=True, config=config)
 
     elif selected_user == "All Users" and selected_option == "All Brands":
         filtered_abn = abndon_df[(abndon_df['Score_Bucket']==cat_selected_bucket)]   
@@ -647,21 +651,21 @@ def app():
         abn_brand_fig = px.scatter(filtered_abn, x='brand', y='Abandonment Rate', color='user_type',
                         hover_data=['brand', 'Views', 'Sales'], size='Abandonment Rate',
                         title='Abandonment Cart Rate for Brands by User Type Scatter Plot', color_discrete_sequence = [  new_user_colors[0], '#00d4ff',])
-        st.plotly_chart(abn_brand_fig, use_container_width=True)
+        st.plotly_chart(abn_brand_fig, use_container_width=True, config=config)
 
     elif selected_user == "New_User" and selected_option == "All Brands":
         filtered_abn = abndon_df[(abndon_df['Score_Bucket']==cat_selected_bucket) & (abndon_df['user_type']==selected_user)]
         abn_brand_fig = px.scatter(filtered_abn, x='brand', y='Abandonment Rate', color='Abandonment Rate',
                         hover_data=['brand', 'Views', 'Sales'], size='Abandonment Rate', color_discrete_sequence = [ new_user_colors[0]],
                         title='Abandonment Cart Rate for Brands by New User Scatter Plot')
-        st.plotly_chart(abn_brand_fig, use_container_width=True)
+        st.plotly_chart(abn_brand_fig, use_container_width=True, config=config)
 
     elif selected_user == "Returning_User" and selected_option == "All Brands":
         filtered_abn = abndon_df[(abndon_df['Score_Bucket']==cat_selected_bucket) & (abndon_df['user_type']==selected_user)]
         abn_brand_fig = px.scatter(filtered_abn, x='brand', y='Abandonment Rate', color='Abandonment Rate',
                         hover_data=['brand', 'Views', 'Sales'], size='Abandonment Rate', color_discrete_sequence = [ new_user_colors[0]],
                         title='Abandonment Cart Rate for Brands by Returning User Scatter Plot')
-        st.plotly_chart(abn_brand_fig, use_container_width=True)
+        st.plotly_chart(abn_brand_fig, use_container_width=True, config=config)
     st.divider()
     filtered_abn['date'] = pd.to_datetime(filtered_abn['date']).dt.date
     # filtered_abn['date'] = filtered_abn['date'].dt.date.copy()
