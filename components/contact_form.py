@@ -69,7 +69,7 @@ def send_email_with_auto_reply(name, subject, email, message_area):
 
     # Email details
     sender = "Private Person <mailtrap@demomailtrap.com>"
-    receiver = "A Test User <innovativesolutions.989@gmail.com>"
+    receiver = "Admin User <innovativesolutions.989@gmail.com>"
 
     # Initial email to receiver
     form_message = f"""\
@@ -98,7 +98,7 @@ We have received your message:
 We will get back to you shortly.
 
 Best regards,
-Your Team
+Your Analyst
 """
 
     try:
