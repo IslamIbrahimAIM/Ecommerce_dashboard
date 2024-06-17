@@ -63,44 +63,45 @@ def main():
     #     st.markdown(contact_form, unsafe_allow_html=True)
 
 
-    st.title('Contact Form')
+    # st.title('Contact Form')
 
-    # Input fields
-    name = st.text_input('Your Name')
-    email = st.text_input('Your Email')
-    subject = st.text_input('Subject')
-    message = st.text_area('Message', height=200)
+    # # Input fields
+    # name = st.text_input('Your Name')
+    # email = st.text_input('Your Email')
+    # subject = st.text_input('Subject')
+    # message = st.text_area('Message', height=200)
 
-    if st.button('Send Email'):
-        # Logic to send email
-        if name and email and subject and message:
-            # SMTP server configuration for Gmail
-            smtp_server = 'smtp.gmail.com'
-            smtp_port = 587  # Gmail SMTP port
-            smtp_username = os.getenv('USER_NAME')  # your Gmail address
-            smtp_password = os.getenv('PASSWARD')  # your Gmail password or app-specific password
+    # if st.button('Send Email'):
+    #     # Logic to send email
+    #     if name and email and subject and message:
+    #         # SMTP server configuration for Gmail
+    #         smtp_server = 'smtp.gmail.com'
+    #         # smtp_server = 'live.smtp.mailtrap.io'
+    #         smtp_port = 587  # Gmail SMTP port
+    #         smtp_username = os.getenv('USER_NAME')  # your Gmail address
+    #         smtp_password = os.getenv('PASSWARD')  # your Gmail password or app-specific password
 
-            # Email content
-            msg = MIMEMultipart()
-            msg['From'] = email
-            msg['To'] = smtp_username  # your Gmail address
-            msg['Subject'] = subject
+    #         # Email content
+    #         msg = MIMEMultipart()
+    #         msg['From'] = email
+    #         msg['To'] = smtp_username  # your Gmail address
+    #         msg['Subject'] = subject
             
-            # Attach message
-            msg.attach(MIMEText(f"Name: {name}\nEmail: {email}\n\n{message}", 'plain'))
+    #         # Attach message
+    #         msg.attach(MIMEText(f"Name: {name}\nEmail: {email}\n\n{message}", 'plain'))
 
-            try:
-                # Establishing SMTP connection
-                with smtplib.SMTP(smtp_server, smtp_port) as server:
-                    server.starttls()  # Secure the connection
-                    server.login(smtp_username, smtp_password)  # Login
-                    server.sendmail(email, smtp_username ,msg.as_string())  # Send email
-                    server.quit()
-                    st.success('Email sent successfully!')
-            except Exception as e:
-                st.error(f'Error: {e}')
-        else:
-            st.warning('Please fill in all fields.')
+    #         try:
+    #             # Establishing SMTP connection
+    #             with smtplib.SMTP(smtp_server, smtp_port) as server:
+    #                 server.starttls()  # Secure the connection
+    #                 server.login(smtp_username, smtp_password)  # Login
+    #                 server.sendmail(email, smtp_username ,msg.as_string())  # Send email
+    #                 server.quit()
+    #                 st.success('Email sent successfully!')
+    #         except Exception as e:
+    #             st.error(f'Error: {e}')
+    #     else:
+    #         st.warning('Please fill in all fields.')
 
 
     def local_css(file_name):
