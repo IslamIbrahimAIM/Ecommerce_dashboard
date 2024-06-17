@@ -80,7 +80,7 @@ def main():
     st.title("Innovative Solutions Across Industries")
     
    
-    tabs = ['Ecom Dashboard', "Univariate_Analysis",]
+    tabs = ['Ecom Dashboard', "Univariate Analysis",]
     tab_selection = st.tabs(tabs)
 
     with tab_selection[0]:
