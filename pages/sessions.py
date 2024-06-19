@@ -611,7 +611,7 @@ def app():
         st.plotly_chart(buckets, use_container_width=True, config=config)
     st.divider()
     filtered_brand = filtered_brand.sort_values(by='Sales', ascending=False)
-    st.dataframe(filtered_brand, hide_index=True, column_order=['brand', 'Views', 'Sales', 'Orders', 'Buyers'], use_container_width=True, hide_index=True)
+    st.dataframe(filtered_brand, hide_index=True, column_order=['brand', 'Views', 'Sales', 'Orders', 'Buyers'], use_container_width=True)
     filter_col1, filter_col2 = st.columns(2)
     with filter_col1:
         custom_order = ["Star", "High Performance", "Low Performance", "Weak Performance"]
