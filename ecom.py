@@ -56,21 +56,38 @@ def main():
         unsafe_allow_html=True
     )
 
-    with st.form("Contact Your Analyst", clear_on_submit=True):
-        title = st.markdown('**Contact your Analyst**')
-        name = st.text_input(label="Name", placeholder="Please enter your Name")
-        subject = st.text_input(label='Subject', placeholder="Please enter subject")
-        email = st.text_input(label='Email Address', placeholder="Please enter your email:'abc@email.com'")
-        message = st.text_area(label='Message', placeholder="Enter your Message Here")
-        submit_msg = st.form_submit_button(label="Send Message")
+
+    def check_form(name, subject, email, message):
+        if not name:
+            st.warning("Please enter your Name")
+            return False
+        if not subject:
+            st.warning("Please enter a Subject")
+            return False
+        if not email:
+            st.warning("Please enter your Email Address")
+            return False
+        if not message:
+            st.warning("Please enter your Message")
+            return False
+        return True
+    with st.expander(label="Contact Your Analyst"):
+        with st.form("Contact Your Analyst", clear_on_submit=True):
+            # title = st.markdown('**Contact your Analyst**')
+            name = st.text_input(label="Name", placeholder="Please enter your Name")
+            subject = st.text_input(label='Subject', placeholder="Please enter subject")
+            email = st.text_input(label='Email Address', placeholder="Please enter your email:'abc@email.com'")
+            message = st.text_area(label='Message', placeholder="Enter your Message Here")
+            submit_msg = st.form_submit_button(label="Send Message")
 
 
     if submit_msg:
-        success, message = send_email_with_auto_reply(name, subject, email, message)
-        if success:
-            st.success(message)
-        else:
-            st.error(message)
+        if check_form(name, subject, email, message):
+            success, message = send_email_with_auto_reply(name, subject, email, message)
+            if success:
+                st.success(message)
+            else:
+                st.error(message)
 
     def local_css(file_name):
         with open(file_name) as f:
