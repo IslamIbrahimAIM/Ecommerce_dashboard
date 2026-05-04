@@ -1,116 +1,70 @@
-import os
-import streamlit as st
-from pages import sessions, category
-import streamlit.components.v1 as components
-from components.contact_form import send_email_with_auto_reply
-# from components.add_ga import inject_ga
+"""Composition root.
 
-
-st.set_page_config(layout='wide', page_title='Ecom-Dashboard', initial_sidebar_state='collapsed')
-no_sidebar_style = """
-    <style>
-        div[data-testid="stSidebarNav"] {display: none;}
-    </style>
+Owns wiring: build config → repository → chart port → mailers → mount tabs.
+No business logic here.
 """
-# Include Google Analytics tracking code
-with open("google_analytics.html", "r") as f:
-    html_code = f.read()
-    components.html(html_code, height=0)
+from __future__ import annotations
 
-# inject_ga()
-# load_dotenv()
+import streamlit as st
 
-st.markdown(no_sidebar_style, unsafe_allow_html=True)
-st.markdown('<style>div.block-container{padding-top:1rem}</style>', unsafe_allow_html=True)
+from charts.chartjs_backend import ChartJsChart
+from charts.plotly_backend import PlotlyChart
+from charts.port import ChartPort
+from data.duckdb_repo import DuckDBRepository
+from infra.config import AppConfig, load_config
+from infra.mailer import Mailer, NoopMailer, SmtpMailer
+from ui import apply_chrome, set_page_config
+from ui.components import contact_form, freshness
+from ui.tabs import all_tabs
 
 
+def _chart_port(config: AppConfig) -> ChartPort:
+    return ChartJsChart() if config.chart_backend == "chartjs" else PlotlyChart()
 
 
-st.cache_data.clear()
-def main():
-    """ 
-    Testing Streamlit
-    """
+def _mailer(smtp_config) -> Mailer:
+    return SmtpMailer(smtp_config) if smtp_config.is_configured else NoopMailer()
 
-    # Replace with your LinkedIn profile URL
-    linkedin_url = "https://www.linkedin.com/in/islamabdallam/"
-    linkedin_icon_markdown = f'<a href="{linkedin_url}" target="_blank"><img src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg" style="border:50%;  width: 70px; height: 50px;"></a>'
-    
-    # Display LinkedIn icon as markdown
-    st.markdown(linkedin_icon_markdown, unsafe_allow_html=True)
 
-    # Apply custom CSS to change the button color
+def _footer(config: AppConfig) -> None:
     st.markdown(
-        """
-        <style>
-        .stButton button {
-            background-color: green;
-            color: white;
-        }
-        .stButton button:hover {
-            background-color: transparent;
-
-        }
-        </style>
+        f"""
+        <div style="margin-top:32px; padding-top:14px; border-top:1px solid #e5e7eb;
+                    color:#6b7280; font-size:12px; display:flex; justify-content:space-between;">
+            <span>Ecom-Dashboard · built by <a href="{config.linkedin_url}" target="_blank"
+                  style="color:#6b7280; text-decoration:none; border-bottom:1px dotted #9ca3af;">
+                  Islam Ibrahim</a></span>
+            <span>Streamlit · DuckDB · Plotly · deployed on Hugging Face Spaces</span>
+        </div>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
 
-    def check_form(name, subject, email, message):
-        if not name:
-            st.warning("Please enter your Name")
-            return False
-        if not subject:
-            st.warning("Please enter a Subject")
-            return False
-        if not email:
-            st.warning("Please enter your Email Address")
-            return False
-        if not message:
-            st.warning("Please enter your Message")
-            return False
-        return True
-    with st.expander(label="Contact Your Analyst"):
-        with st.form("Contact Your Analyst", clear_on_submit=True):
-            # title = st.markdown('**Contact your Analyst**')
-            name = st.text_input(label="Name", placeholder="Please enter your Name")
-            subject = st.text_input(label='Subject', placeholder="Please enter subject")
-            email = st.text_input(label='Email Address', placeholder="Please enter your email:'abc@email.com'")
-            message = st.text_area(label='Message', placeholder="Enter your Message Here")
-            submit_msg = st.form_submit_button(label="Send Message")
+def main() -> None:
+    # set_page_config MUST be the first Streamlit call (before anything that
+    # might touch st.secrets / st.* — load_config() does as a fallback).
+    set_page_config()
+    config = load_config()
+    apply_chrome(config)
+
+    repo = DuckDBRepository(config.parquet_dir)
+    charts = _chart_port(config)
+
+    freshness.render(repo)
+    contact_form.render(
+        config=config,
+        inbound_mailer=_mailer(config.smtp),
+        autoreply_mailer=_mailer(config.google_smtp),
+    )
+
+    tabs = all_tabs()
+    for tab_widget, tab in zip(st.tabs([t.title for t in tabs]), tabs, strict=False):
+        with tab_widget:
+            tab.render(repo, charts, config)
+
+    _footer(config)
 
 
-    if submit_msg:
-        if check_form(name, subject, email, message):
-            success, message = send_email_with_auto_reply(name, subject, email, message)
-            if success:
-                st.success(message)
-            else:
-                st.error(message)
-
-    def local_css(file_name):
-        with open(file_name) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    local_css("components/style.css")
-
-    st.title("Innovative Solutions Across Industries")
-    
-   
-    tabs = ['Ecom Dashboard', "Univariate Analysis",]
-    tab_selection = st.tabs(tabs)
-
-    with tab_selection[0]:
-        sessions.app()
-        # testing.app()
-
-    with tab_selection[1]:
-        category.app()
-
-    # with tab_selection[2]:
-        
-
-
-if __name__ == '__main__':
-    
+if __name__ == "__main__":
     main()

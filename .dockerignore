@@ -1,0 +1,38 @@
+.git
+.gitignore
+.gitattributes
+.github
+
+.venv
+venv
+env
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.coverage
+htmlcov
+dist
+build
+
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+.DS_Store
+.vscode
+.idea
+
+# Heroku-era artifacts (kept as files but not needed inside image)
+Procfile
+setup.sh
+
+# Pickles superseded by parquet
+data/*.pkl
+
+# Tests not needed in production image
+tests

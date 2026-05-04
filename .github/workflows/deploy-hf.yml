@@ -1,0 +1,36 @@
+name: Deploy to Hugging Face Space
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [master, main]
+
+permissions:
+  contents: read
+
+jobs:
+  push:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Push to Hugging Face Space
+        env:
+          HF_USER: ${{ secrets.HF_USER }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE: ${{ secrets.HF_SPACE }}
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "HF_TOKEN secret is not set; skipping deploy."
+            exit 0
+          fi
+          git config --global user.email "deploy@github-actions"
+          git config --global user.name  "github-actions[bot]"
+          git remote add hf "https://${HF_USER}:${HF_TOKEN}@huggingface.co/spaces/${HF_USER}/${HF_SPACE}"
+          git push hf HEAD:main --force
