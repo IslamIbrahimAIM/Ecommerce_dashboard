@@ -31,8 +31,8 @@ build
 Procfile
 setup.sh
 
-# Pickles superseded by parquet
-data/*.pkl
+# Generated at build time by scripts/migrate_pickle_to_parquet.py
+data/parquet/
 
 # Tests not needed in production image
 tests

@@ -27,3 +27,7 @@ env/
 htmlcov/
 dist/
 build/
+
+# Generated parquet rollups — produced by scripts/migrate_pickle_to_parquet.py
+# both locally (run inside Docker) and during the HF Space image build.
+data/parquet/

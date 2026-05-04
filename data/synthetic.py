@@ -125,11 +125,16 @@ def synth_basket_items(
 
     rng = np.random.default_rng(seed + 1)
 
-    # category → brands seen in the period
+    # category → (brands, popularity_weights). Weighting extras by brand
+    # frequency in the period creates Zipf-like concentration so popular
+    # brand pairs co-occur enough for Apriori to find rules.
     cat_to_brands: dict[str, np.ndarray] = {}
+    cat_to_weights: dict[str, np.ndarray] = {}
     if not daily_category_brand.empty and "category" in daily_category_brand.columns:
         for cat, sub in daily_category_brand.groupby("category", observed=False):
-            cat_to_brands[str(cat)] = sub["brand"].astype(str).unique()
+            agg = sub.groupby("brand", observed=False).size().sort_values(ascending=False)
+            cat_to_brands[str(cat)] = agg.index.astype(str).to_numpy()
+            cat_to_weights[str(cat)] = (agg.to_numpy(dtype=float) / agg.sum())
 
     # brand → modal category
     if "category" in daily_category_brand.columns:
@@ -163,12 +168,22 @@ def synth_basket_items(
             continue
         cat = anchor_cat[i]
         candidates = cat_to_brands.get(cat)
+        weights = cat_to_weights.get(cat)
         if candidates is None or len(candidates) == 0:
             continue
-        pool = candidates[candidates != anchor_brand[i]]
+        mask = candidates != anchor_brand[i]
+        pool = candidates[mask]
+        w = weights[mask] if weights is not None else None
         if len(pool) == 0:
             continue
-        picks = rng.choice(pool, size=min(int(n_extra), len(pool)), replace=False)
+        if w is not None:
+            w_sum = w.sum()
+            if w_sum > 0:
+                w = w / w_sum
+            else:
+                w = None
+        size = min(int(n_extra), len(pool))
+        picks = rng.choice(pool, size=size, replace=False, p=w)
         for p in picks:
             rows.append((order_ids[i], str(p), customer_ids[i]))
 

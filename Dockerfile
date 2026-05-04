@@ -37,6 +37,10 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # --- Layer 2: actual source (overlays the stubs) ---
 COPY . .
 
+# Generate parquet rollups from the source pickles. Idempotent. Cached as long
+# as the source pickles + the migration script are unchanged.
+RUN python scripts/migrate_pickle_to_parquet.py
+
 EXPOSE 7860
 
 CMD ["streamlit", "run", "ecom.py", \
